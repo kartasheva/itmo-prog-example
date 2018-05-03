@@ -1,0 +1,11 @@
+{
+  "key3" : {
+    "clatterOfHooves" : true
+  },
+  "key2" : {
+    "clatterOfHooves" : false
+  },
+  "key1" : {
+    "clatterOfHooves" : true
+  }
+}
