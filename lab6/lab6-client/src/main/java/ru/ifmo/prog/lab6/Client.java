@@ -21,54 +21,55 @@ public class Client {
     private static ObjectMapper mapper = new ObjectMapper();
 
     public static void main(String[] args) throws IOException {
+        Scanner scan = new Scanner(System.in);
         String mainThreadName = Thread.currentThread().getName();
-        while (true) {
+        for (int i = 0; i < 5; i++) {
             Socket socket = null;
             try {
                 print(mainThreadName, format("try connect to %s:%d", HOST, PORT));
                 socket = new Socket(HOST, PORT);
+                i = 0;
                 print(mainThreadName, format("connected to %s:%d", HOST, PORT));
-                try (Scanner scan = new Scanner(System.in)) {
-                    showValues(socket);
-                    print(mainThreadName, "removeAll | remove | clear | load | show | exit");
-                    for(;;){
-                        if (scan.hasNextLine()) {
-                            Message message;
-                            String command = scan.nextLine();
-                            if (command.startsWith("removeAll")) {
-                                message = new Message(REMOVE_ALL);
-                                message.setPayload(mapper.readValue(command.split(" ")[1], Cart.class));
-                                print(Thread.currentThread().getName(), "remove all like data...");
-                                writeData(socket, message);
-                                printStore(readData(socket));
-                            } else if (command.startsWith("remove")) {
-                                message = new Message(REMOVE);
-                                message.setPayload(command.split(" ")[1]);
-                                print(Thread.currentThread().getName(), "remove by id data...");
-                                writeData(socket, message);
-                                printStore(readData(socket));
-                            } else if (command.startsWith("clear")) {
-                                message = new Message(CLEAR);                                ;
-                                print(Thread.currentThread().getName(), "clear data...");
-                                writeData(socket, message);
-                                printStore(readData(socket));
-                            } else if (command.startsWith("load")) {
-                                message = new Message(LOAD);
-                                print(Thread.currentThread().getName(), "load data...");
-                                writeData(socket, message);
-                                printStore(readData(socket));
-                            } else if (command.startsWith("show")) {
-                                showValues(socket);
-                            } else if (command.startsWith("exit")) {
-                                System.out.println("Bye!");
-                                message = new Message(CLOSE);
-                                writeData(socket, message);
-                                return;
-                            } else {
-                                System.out.println("Incorrect command");
-                            }
+                showValues(socket);
+                print(mainThreadName, "removeAll | remove | clear | load | show | exit");
+                for(;;){
+                    if (scan.hasNextLine()) {
+                        Message message;
+                        String command = scan.nextLine();
+                        if (command.startsWith("removeAll")) {
+                            message = new Message(REMOVE_ALL);
+                            message.setPayload(mapper.readValue(command.split(" ")[1], Cart.class));
+                            print(Thread.currentThread().getName(), "remove all like data...");
+                            writeData(socket, message);
+                            printStore(readData(socket));
+                        } else if (command.startsWith("remove")) {
+                            message = new Message(REMOVE);
+                            message.setPayload(command.split(" ")[1]);
+                            print(Thread.currentThread().getName(), "remove by id data...");
+                            writeData(socket, message);
+                            printStore(readData(socket));
+                        } else if (command.startsWith("clear")) {
+                            message = new Message(CLEAR);                                ;
+                            print(Thread.currentThread().getName(), "clear data...");
+                            writeData(socket, message);
+                            printStore(readData(socket));
+                        } else if (command.startsWith("load")) {
+                            message = new Message(LOAD);
+                            print(Thread.currentThread().getName(), "load data...");
+                            writeData(socket, message);
+                            printStore(readData(socket));
+                        } else if (command.startsWith("show")) {
+                            showValues(socket);
+                        } else if (command.startsWith("exit")) {
+                            System.out.println("Bye!");
+                            message = new Message(CLOSE);
+                            writeData(socket, message);
+                            return;
+                        } else {
+                            System.out.println("Incorrect command");
                         }
                     }
+                    print(mainThreadName, "iteration");
                 }
             } catch (IOException e) {
                 print(mainThreadName, e.getMessage());
@@ -77,7 +78,15 @@ public class Client {
                     socket.close();
                 }
             }
+
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                print(mainThreadName, e.getMessage());
+            }
         }
+
+        print(mainThreadName, "Time is over!");
     }
 
     public static void showValues(Socket socket) throws IOException {
