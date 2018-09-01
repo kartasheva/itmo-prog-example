@@ -1,5 +1,6 @@
 package ru.ifmo.prog.lab7;
 
+import java.awt.*;
 import java.util.Date;
 import java.util.Objects;
 
@@ -10,6 +11,7 @@ public class Cart implements Comparable<Cart> {
     private Integer x;
     private Integer y;
     private Date createdAt;
+    private Color color;
 
     public void noise(){
         if (clatterOfHooves){
@@ -28,13 +30,14 @@ public class Cart implements Comparable<Cart> {
     public Cart() {
     }
 
-    public Cart(boolean clatterOfHooves, String title, Integer size, Integer x, Integer y, Date createdAt) {
+    public Cart(boolean clatterOfHooves, String title, Integer size, Integer x, Integer y, Date createdAt,Color color) {
         this.clatterOfHooves = clatterOfHooves;
         this.title = title;
         this.size = size;
         this.x = x;
         this.y = y;
         this.createdAt = createdAt;
+        this.color = color;
     }
 
     public boolean isClatterOfHooves() {
@@ -85,6 +88,10 @@ public class Cart implements Comparable<Cart> {
         this.createdAt = createdAt;
     }
 
+    public Color getColor(){ return color; }
+
+    public void setColor(Color color){ this.color = color; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -95,12 +102,13 @@ public class Cart implements Comparable<Cart> {
                 Objects.equals(size, cart.size) &&
                 Objects.equals(x, cart.x) &&
                 Objects.equals(y, cart.y) &&
-                Objects.equals(createdAt, cart.createdAt);
+                Objects.equals(createdAt, cart.createdAt) &&
+                Objects.equals(color, cart.color);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(clatterOfHooves, title, size, x, y, createdAt);
+        return Objects.hash(clatterOfHooves, title, size, x, y, createdAt, color);
     }
 }

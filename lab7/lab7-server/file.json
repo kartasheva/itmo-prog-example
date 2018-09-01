@@ -5,7 +5,8 @@
     "size" : 1,
     "x" : 0,
     "y" : 0,
-    "createdAt" : 1527729207204
+    "createdAt" : 1527729207204,
+    "color" : null
   },
   "key2" : {
     "clatterOfHooves" : false,
@@ -13,7 +14,8 @@
     "size" : 3,
     "x" : 0,
     "y" : 0,
-    "createdAt" : 1527729207204
+    "createdAt" : 1527729207204,
+    "color" : null
   },
   "key1" : {
     "clatterOfHooves" : true,
@@ -21,6 +23,7 @@
     "size" : 2,
     "x" : 0,
     "y" : 0,
-    "createdAt" : 1527729207204
+    "createdAt" : 1527729207204,
+    "color" : null
   }
 }

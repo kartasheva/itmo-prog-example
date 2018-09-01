@@ -2,6 +2,7 @@ package ru.ifmo.prog.lab7;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
+import java.awt.*;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Set;
@@ -10,7 +11,7 @@ public class MyTableModel implements TableModel {
     private Set<TableModelListener> listeners = new HashSet<TableModelListener>();
     private Cart cart;
     private Collection coll;
-    private Hashtable store;
+    private Hashtable<String,Cart> store;
     private Object o;
 
     public void addTableModelListener(TableModelListener listener) {
@@ -38,10 +39,16 @@ public class MyTableModel implements TableModel {
                 return Integer.class;
             case 6:
                 return Integer.class;
+            case 7:
+                return Color.class;
 
         }
         return Object.class;
     }
+
+   public  MyTableModel(Hashtable table){
+        this.store = store;
+   }
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -49,7 +56,7 @@ public class MyTableModel implements TableModel {
     }
 
     public int getColumnCount() {
-        return 7;
+        return 8;
     }
 
     public String getColumnName(int columnIndex) {
@@ -68,16 +75,17 @@ public class MyTableModel implements TableModel {
                 return "Y";
             case 6:
                 return "CreatedAt";
+            case 7:
+                return "Color";
         }
         return "";
     }
 
     public int getRowCount() {
-        return coll.getCollection().size();
+        return store.size();
     }
 
     public Object getValueAt(int rowIndex, int columnIndex){
-        store = coll.getCollection();
         o = store.get(rowIndex);
         switch (columnIndex) {
             case 0:
@@ -94,6 +102,8 @@ public class MyTableModel implements TableModel {
                 return cart.getY();
             case 6:
                 return cart.getCreatedAt();
+            case 7:
+                return cart.getColor();
         }
         return "";
     }

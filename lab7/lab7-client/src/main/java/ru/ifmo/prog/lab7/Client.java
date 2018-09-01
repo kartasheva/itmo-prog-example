@@ -30,6 +30,8 @@ public class Client {
                 socket = new Socket(HOST, PORT);
                 i = 0;
                 print(mainThreadName, format("connected to %s:%d", HOST, PORT));
+                ClientGraphics clientGraphics = new ClientGraphics();
+                clientGraphics.setVisible(true);
                 showValues(socket);
                 print(mainThreadName, "removeAll | remove | clear | load | show | exit");
                 for(;;){
