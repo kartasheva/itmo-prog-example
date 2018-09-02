@@ -1,230 +1,245 @@
 package ru.ifmo.prog.lab7;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Date;
 
+import static javax.swing.Box.*;
 
 public class ServerGraphics extends JFrame {
-    private JButton load;
-    private JButton save;
-    private JButton remove;
-    private JButton removeAll;
-    private JButton clear;
-    private JButton exit;
-    private Collection col;
     private Server server;
-    private JTextField f1;
-    private JPasswordField f2;
-    private JLabel login;
-    private JLabel password;
-    private String log = "user";
-    private char[] pas = {'u', 's', 'e', 'r'};
+    private Collection<Cart> collection;
 
+    private JTable collectionTable;
 
-    public void windowLocation() {
+    public static void normalizeLocation(Window window) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Dimension frameSize = getSize();
+        Dimension frameSize = window.getSize();
         if (frameSize.height > screenSize.height) {
             frameSize.height = screenSize.height;
         }
         if (frameSize.width > screenSize.width) {
             frameSize.width = screenSize.width;
         }
-        setLocation((screenSize.width - frameSize.width) / 2, (screenSize.height - frameSize.height) / 2);
-        setSize(500, 400);
+        window.setLocation((screenSize.width - frameSize.width) / 2, (screenSize.height - frameSize.height) / 2);
     }
 
-    public ServerGraphics() {
+    public ServerGraphics(Server server, Collection<Cart> collection) {
         super("Server");
+
+        this.server = server;
+        this.collection = collection;
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(false);
-        windowLocation();
-        entrance();
+        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        prepareAuthorizationForm();
 
+        this.server.addResponseHandler((message, client) -> {
+            if (collectionTable != null) {
+                ((CollectionTableModel) collectionTable.getModel()).fireTableDataChanged();
+            }
+        });
+
+        setVisible(true);
     }
 
-    public void entrance() {
-        Box box1 = Box.createHorizontalBox();
-        login = new JLabel("Login:");
-        f1 = new JTextField("user", 15);
-        box1.add(login);
-        box1.add(Box.createHorizontalStrut(6));
-        box1.add(f1);
+    private void prepareAuthorizationForm() {
+        Container container = getContentPane();
+        container.removeAll();
+        setJMenuBar(null);
 
-        Box box2 = Box.createHorizontalBox();
-        password = new JLabel("Password:");
-        f2 = new JPasswordField("user", 10);
-        box2.add(password);
-        box2.add(Box.createHorizontalStrut(6));
-        box2.add(f2);
-
-        Box box3 = Box.createHorizontalBox();
-        JButton ok = new JButton("OK");
-        ok.addActionListener(new OkActionListener());
-        JButton cancel = new JButton("CANCEL");
-        cancel.addActionListener(new CancelActionListener());
-        box3.add(Box.createHorizontalGlue());
-        box3.add(ok);
-        box3.add(Box.createHorizontalStrut(12));
-        box3.add(cancel);
-
-        login.setPreferredSize(password.getPreferredSize());
-        Box mainBox = Box.createVerticalBox();
-        mainBox.setBorder(new EmptyBorder(12, 12, 12, 12));
-        mainBox.add(box1);
-        mainBox.add(Box.createVerticalStrut(12));
-        mainBox.add(box2);
-        mainBox.add(Box.createVerticalStrut(17));
-        mainBox.add(box3);
-        setContentPane(mainBox);
-        pack();
-        setResizable(false);
-    }
-
-    public void truePassword() throws IOException {
-        getContentPane().removeAll();
-        /*Collection coll = new Collection("file.json", Cart.class);
-        Hashtable store = coll.getCollection();
-        MyTableModel model = new MyTableModel(store);
-        JTable table = new JTable(model);
-        add(table);
-        pack();*/
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-
-        load = new JButton("Load");
-        ActionListener al1 = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                server.load(server.getCollection(), server.getClient());
-            }
-        };
-        load.addActionListener(al1);
-        panel.add(load);
-
-        remove = new JButton("Remove");
-        ActionListener al2 = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                server.remove(server.getCollection(), server.getClient(), server.getMessage());
-            }
-        };
-        load.addActionListener(al2);
-        panel.add(remove);
-
-        removeAll = new JButton("Remove all");
-        ActionListener al3 = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                server.removeAll(server.getCollection(), server.getClient(), server.getMessage());
-            }
-        };
-        load.addActionListener(al3);
-        panel.add(removeAll);
-
-        clear = new JButton("Clear");
-        ActionListener al4 = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                server.clear(server.getCollection(), server.getClient());
-            }
-        };
-        load.addActionListener(al4);
-        panel.add(clear);
-
-        exit = new JButton("Exit");
-        exit.addActionListener(new ExitlActionListener());
-        panel.add(exit);
-
-        add(panel);
-        pack();
-    }
-
-    public void falsePassword() {
-        getContentPane().removeAll();
-        Box box1 = Box.createHorizontalBox();
-        login = new JLabel("Login:");
-        f1 = new JTextField("user", 15);
-        box1.add(login);
-        box1.add(Box.createHorizontalStrut(6));
-        box1.add(f1);
-
-        Box box2 = Box.createHorizontalBox();
-        password = new JLabel("Password:");
-        f2 = new JPasswordField("user", 10);
-        box2.add(password);
-        box2.add(Box.createHorizontalStrut(6));
-        box2.add(f2);
-
-        Box box3 = Box.createHorizontalBox();
-        JButton ok = new JButton("OK");
-        ok.addActionListener(new OkActionListener());
-        JButton cancel = new JButton("CANCEL");
-        cancel.addActionListener(new CancelActionListener());
-        box3.add(Box.createHorizontalGlue());
-        box3.add(ok);
-        box3.add(Box.createHorizontalStrut(12));
-        box3.add(cancel);
-
-        login.setPreferredSize(password.getPreferredSize());
-        Box mainBox = Box.createVerticalBox();
-        mainBox.setBorder(new EmptyBorder(12, 12, 12, 12));
-        mainBox.add(box1);
-        mainBox.add(Box.createVerticalStrut(12));
-        mainBox.add(box2);
-        mainBox.add(Box.createVerticalStrut(17));
-        mainBox.add(box3);
-        JLabel fp = new JLabel("password is false");
-        fp.setForeground(Color.RED);
-        mainBox.add(fp);
-        setContentPane(mainBox);
-        pack();
         setResizable(false);
 
+        Box loginBox = createHorizontalBox(),
+                passwordBox = createHorizontalBox(),
+                actionsBox = createHorizontalBox();
+
+        JTextField loginField;
+        JPasswordField passwordField;
+
+        JLabel loginLabel, passwordLabel;
+
+        JButton submitButton, cancelButton;
+
+        loginLabel = (JLabel) loginBox.add(new JLabel("login:"));
+        loginBox.add(createHorizontalStrut(6));
+        loginField = (JTextField) loginBox.add(new JTextField("user", 15));
+
+        passwordLabel = (JLabel) passwordBox.add(new JLabel("password:"));
+        passwordBox.add(createHorizontalStrut(6));
+        passwordField = (JPasswordField) passwordBox.add(new JPasswordField("user", 10));
+
+        loginLabel.setPreferredSize(passwordLabel.getPreferredSize());
+
+        submitButton = (JButton) actionsBox.add(new JButton("OK"));
+        cancelButton = (JButton) actionsBox.add(new JButton("CANCEL"));
+
+        submitButton.addActionListener(event -> {
+            if (login(loginField.getText(), passwordField.getPassword())) {
+                preparePage();
+            } else {
+                JOptionPane.showMessageDialog(this,"Incorrect login or password",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        cancelButton.addActionListener(event -> System.exit(0));
+
+        container.add(loginBox);
+        container.add(Box.createVerticalStrut(12));
+        container.add(passwordBox);
+        container.add(Box.createVerticalStrut(17));
+        container.add(actionsBox);
+
+        pack();
+        validate();
+        repaint();
+        normalizeLocation(this);
     }
 
-    public class OkActionListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
+    private void preparePage() {
+        Container container = getContentPane();
+        container.removeAll();
+        JMenuBar menuBar = new JMenuBar();
+        JMenu actions = menuBar.add(new JMenu("ACTIONS"));
+        JMenuItem collectionLoadButton = actions.add(new JMenuItem("LOAD"));
+        JMenuItem collectionSaveButton = actions.add(new JMenuItem("SAVE"));
+
+        collectionLoadButton.addActionListener(event -> {
             try {
-                if ((f1.getText().equals(log)) && Arrays.equals(f2.getPassword(), pas)) {
-                    truePassword();
+                collection.load();
+            } catch (IOException e) {
+                OutputHelper.print(Thread.currentThread().getName(), e.getMessage());
+            } finally {
+                ((CollectionTableModel) collectionTable.getModel()).fireTableDataChanged();
+            }
+        });
+        collectionSaveButton.addActionListener(event -> {
+            try {
+                collection.save();
+            } catch (IOException e) {
+                OutputHelper.print(Thread.currentThread().getName(), e.getMessage());
+            } finally {
+                ((CollectionTableModel) collectionTable.getModel()).fireTableDataChanged();
+            }
+        });
 
-                } else {
-                    falsePassword();
+        setJMenuBar(menuBar);
+
+        setResizable(true);
+
+        Box actionsBox = createHorizontalBox(), tableBox = createVerticalBox();
+
+        JButton addButton, removeButton, removeAllButton, clearButton, exitButton;
+
+        addButton = (JButton) actionsBox.add(new JButton("ADD ITEM"));
+        removeButton = (JButton) actionsBox.add(new JButton("REMOVE SELECTED ITEM"));
+        removeAllButton = (JButton) actionsBox.add(new JButton("REMOVE ALL ITEM LIKE EMPTY"));
+        clearButton = (JButton) actionsBox.add(new JButton("CLEAR"));
+        exitButton = (JButton) actionsBox.add(new JButton("EXIT"));
+
+        addButton.addActionListener(event -> {
+            try {
+                collection.add(collection.sequence(), collection.getItemType().newInstance() );
+            } catch (InstantiationException | IllegalAccessException e) {
+                OutputHelper.print(Thread.currentThread().getName(), e.getMessage());
+            } finally {
+                ((CollectionTableModel) collectionTable.getModel()).fireTableDataChanged();
+            }
+        });
+
+        removeButton.addActionListener(removeButtonEvent -> {
+            JDialog removeItemKeyDialog = new JDialog(this,"REMOVE ITEM BY KEY", Dialog.ModalityType.DOCUMENT_MODAL);
+            removeItemKeyDialog.setResizable(false);
+            removeItemKeyDialog.setLayout(new BoxLayout(removeItemKeyDialog.getContentPane(), BoxLayout.Y_AXIS));
+
+            Box keyBox = createHorizontalBox(),
+                    dialogActionsBox = createHorizontalBox();
+
+            JTextField keyField;
+
+            JLabel keyLabel;
+
+            JButton submitButton, cancelButton;
+
+            keyLabel = (JLabel) keyBox.add(new JLabel("KEY:"));
+            keyBox.add(createHorizontalStrut(6));
+            keyField = (JTextField) keyBox.add(
+                    new JTextField(collectionTable.getSelectedRow() >= 0
+                            ? String.valueOf(collectionTable.getModel().getValueAt(collectionTable.getSelectedRow(), 0))
+                            : "",
+                            15));
+
+            submitButton = (JButton) dialogActionsBox.add(new JButton("REMOVE ITEM"));
+            cancelButton = (JButton) dialogActionsBox.add(new JButton("CANCEL"));
+
+            submitButton.addActionListener(event -> {
+                try {
+                    collection.remove(keyField.getText());
+                } catch (Exception e) {
+                    OutputHelper.print(Thread.currentThread().getName(), e.getMessage());
+                } finally {
+                    removeItemKeyDialog.dispose();
+                    ((CollectionTableModel) collectionTable.getModel()).fireTableDataChanged();
                 }
-            } catch (IOException e1) {
-                System.out.print("alarm");
-            }
+            });
+            cancelButton.addActionListener(event -> removeItemKeyDialog.dispose());
 
-        }
+            removeItemKeyDialog.add(keyBox);
+            removeItemKeyDialog.add(Box.createVerticalStrut(17));
+            removeItemKeyDialog.add(dialogActionsBox);
+
+            removeItemKeyDialog.pack();
+            removeItemKeyDialog.setVisible(true);
+            normalizeLocation(removeItemKeyDialog);
+        });
+
+        removeAllButton.addActionListener(event -> {
+            try {
+                collection.removeAll(new Cart());
+            } catch (Exception e) {
+                OutputHelper.print(Thread.currentThread().getName(), e.getMessage());
+            } finally {
+                ((CollectionTableModel) collectionTable.getModel()).fireTableDataChanged();
+            }
+        });
+
+        clearButton.addActionListener(event -> {
+            try {
+                collection.clear();
+            } catch (Exception e) {
+                OutputHelper.print(Thread.currentThread().getName(), e.getMessage());
+            } finally {
+                ((CollectionTableModel) collectionTable.getModel()).fireTableDataChanged();
+            }
+        });
+
+        exitButton.addActionListener(e -> prepareAuthorizationForm());
+
+        collectionTable = new JTable(new CollectionTableModel(collection));
+        collectionTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        collectionTable.setDefaultEditor(Date.class, new CollectionTableDateCellEditor());
+        collectionTable.setDefaultEditor(ru.ifmo.prog.lab7.Color.class, new CollectionTableColorCellEditor());
+        collectionTable.setDefaultRenderer(ru.ifmo.prog.lab7.Color.class, new CollectionTableColorCellRenderer());
+        collectionTable.getModel().addTableModelListener(event -> {
+            collectionTable.repaint();
+        });
+        JScrollPane collectionScrollPane = new JScrollPane(collectionTable);
+        tableBox.add(collectionScrollPane);
+
+        container.add(actionsBox);
+        container.add(tableBox);
+
+        pack();
+        container.validate();
+        container.repaint();
     }
 
-        public class CancelActionListener implements ActionListener {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-                System.exit(0);
-            }
-        }
+    private static boolean login(String login, char[] password) {
+        String _login = "user", _password = "user";
 
-        public class ExitlActionListener implements ActionListener {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-                entrance();
-                setVisible(true);
-            }
-        }
+        return login.equals(_login) && String.valueOf(password).equals(_password);
     }
-
-
-
+}
 
 //вариант 311363

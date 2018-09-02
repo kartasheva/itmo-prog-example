@@ -1,6 +1,5 @@
 package ru.ifmo.prog.lab7;
 
-import java.awt.*;
 import java.util.Date;
 import java.util.Objects;
 
@@ -11,7 +10,7 @@ public class Cart implements Comparable<Cart> {
     private Integer x;
     private Integer y;
     private Date createdAt;
-    private Color color;
+    private ru.ifmo.prog.lab7.Color color;
 
     public void noise(){
         if (clatterOfHooves){
@@ -28,9 +27,12 @@ public class Cart implements Comparable<Cart> {
     }
 
     public Cart() {
+        createdAt = new Date();
+        x = 0;
+        y = 0;
     }
 
-    public Cart(boolean clatterOfHooves, String title, Integer size, Integer x, Integer y, Date createdAt,Color color) {
+    public Cart(boolean clatterOfHooves, String title, Integer size, Integer x, Integer y, Date createdAt, ru.ifmo.prog.lab7.Color color) {
         this.clatterOfHooves = clatterOfHooves;
         this.title = title;
         this.size = size;
@@ -88,9 +90,9 @@ public class Cart implements Comparable<Cart> {
         this.createdAt = createdAt;
     }
 
-    public Color getColor(){ return color; }
+    public ru.ifmo.prog.lab7.Color getColor(){ return color; }
 
-    public void setColor(Color color){ this.color = color; }
+    public void setColor(ru.ifmo.prog.lab7.Color color){ this.color = color; }
 
     @Override
     public boolean equals(Object o) {
@@ -102,7 +104,6 @@ public class Cart implements Comparable<Cart> {
                 Objects.equals(size, cart.size) &&
                 Objects.equals(x, cart.x) &&
                 Objects.equals(y, cart.y) &&
-                Objects.equals(createdAt, cart.createdAt) &&
                 Objects.equals(color, cart.color);
     }
 

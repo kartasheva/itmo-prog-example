@@ -20,12 +20,7 @@ public class Collection<T extends Cart> {
         this.pathToFile = pathToFile;
         this.itemType = itemType;
         load();
-    };
-
-    public Hashtable getCollection() {
-        return this.store;
-    };
-
+    }
 
     /**
      * Перечитать коллекцию из файла
@@ -42,15 +37,10 @@ public class Collection<T extends Cart> {
             }
         }
 
-        Hashtable<String, T> unsortedStore = new Hashtable<>();
         MapType mapType = mapper.getTypeFactory().constructMapType(Hashtable.class, String.class, itemType);
-        unsortedStore = mapper.readValue(content.toString(), mapType);
-        List<Map.Entry> list = new ArrayList<Map.Entry>(unsortedStore.entrySet());
-        Collections.sort(list, new Comparator<Map.Entry>() {
-            public int compare(Map.Entry e1, Map.Entry e2) {
-                return ((Cart) e2.getValue()).getSize().compareTo(((Cart) e1.getValue()).getSize());
-            }
-        });
+        Hashtable<String, T> unsortedStore= mapper.readValue(content.toString(), mapType);
+        List<Map.Entry> list = new ArrayList<>(unsortedStore.entrySet());
+        list.sort((e1, e2) -> ((Cart) e2.getValue()).getCreatedAt().compareTo(((Cart) e1.getValue()).getCreatedAt()));
         store.clear();
         for(int i = 0; i < list.size(); i++) {
             store.put((String) list.get(i).getKey(), (T) list.get(i).getValue());
@@ -105,6 +95,10 @@ public class Collection<T extends Cart> {
         return store.remove(key);
     }
 
+    public T add(String key, T item) {
+        return store.put(key, item);
+    }
+
     /**
      * Получить значения в коллекции
      * @return коллекция значений
@@ -126,8 +120,17 @@ public class Collection<T extends Cart> {
         });
     }
 
+    public String sequence() {
+        String key = String.valueOf(values().size());
+
+        return key;
+    }
+
     public Hashtable<String, T> getStore() {
         return store;
     }
-    
+
+    public Class<T> getItemType() {
+        return itemType;
+    }
 }

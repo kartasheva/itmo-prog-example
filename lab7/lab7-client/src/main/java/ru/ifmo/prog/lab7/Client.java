@@ -26,7 +26,7 @@ public class Client {
         for (int i = 0; i < 5; i++) {
             Socket socket = null;
             try {
-                print(mainThreadName, format(" try connect to %s:%d", HOST, PORT));
+                print(mainThreadName, format("try connect to %s:%d", HOST, PORT));
                 socket = new Socket(HOST, PORT);
                 i = 0;
                 print(mainThreadName, format("connected to %s:%d", HOST, PORT));
