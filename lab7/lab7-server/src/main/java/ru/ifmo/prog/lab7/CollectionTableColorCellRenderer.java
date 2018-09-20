@@ -7,11 +7,11 @@ import java.awt.*;
 public class CollectionTableColorCellRenderer implements TableCellRenderer {
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        ru.ifmo.prog.lab7.Color color = (ru.ifmo.prog.lab7.Color) value;
-        if (color != null) {
-            JLabel colorLabel = new JLabel(color.toString());
+        LabColor labColor = (LabColor) value;
+        if (labColor != null) {
+            JLabel colorLabel = new JLabel(labColor.toString());
             colorLabel.setOpaque(true);
-            colorLabel.setBackground(color.toAWTColor());
+            colorLabel.setBackground(labColor.toAWTColor());
 
             return colorLabel;
         }

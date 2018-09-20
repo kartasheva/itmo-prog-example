@@ -6,6 +6,7 @@ public enum MessageType {
     CLEAR,
     LOAD,
     SHOW,
-    SHOW_RESPONCE,
+    SHOW_FILTRED,
+    SHOW_RESPONSE,
     CLOSE
 }

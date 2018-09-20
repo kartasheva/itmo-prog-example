@@ -2,30 +2,30 @@ package ru.ifmo.prog.lab7;
 
 import java.util.Objects;
 
-public class Color {
+public class LabColor {
     private Integer red;
     private Integer green;
     private Integer blue;
 
-    public Color() {
+    public LabColor() {
         this.red = 0xFF;
         this.green = 0xFF;
         this.blue = 0xFF;
     }
 
-    public Color(Integer red, Integer green, Integer blue) {
+    public LabColor(Integer red, Integer green, Integer blue) {
         this.red = red;
         this.green = green;
         this.blue = blue;
     }
 
-    public Color(java.awt.Color color) {
+    public LabColor(java.awt.Color color) {
         this.red = color.getRed();
         this.green = color.getGreen();
         this.blue = color.getBlue();
     }
 
-    public Color(String color) {
+    public LabColor(String color) {
         this.red = Integer.valueOf(color.substring( 1, 3 ), 16);
         this.green = Integer.valueOf(color.substring( 3, 5 ), 16);
         this.blue = Integer.valueOf(color.substring( 5, 7 ), 16);
@@ -59,10 +59,10 @@ public class Color {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Color color = (Color) o;
-        return Objects.equals(red, color.red) &&
-                Objects.equals(green, color.green) &&
-                Objects.equals(blue, color.blue);
+        LabColor labColor = (LabColor) o;
+        return Objects.equals(red, labColor.red) &&
+                Objects.equals(green, labColor.green) &&
+                Objects.equals(blue, labColor.blue);
     }
 
     @Override

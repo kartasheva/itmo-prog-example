@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.swing.*;
 import java.io.IOException;
 
-import static ru.ifmo.prog.lab7.MessageType.SHOW_RESPONCE;
+import static ru.ifmo.prog.lab7.MessageType.SHOW_RESPONSE;
 import static ru.ifmo.prog.lab7.OutputHelper.print;
 import static ru.ifmo.prog.lab7.Server.writeData;
 
@@ -30,15 +30,16 @@ public class Lab7Server {
                             writeData(
                                     client,
                                     new Message(
-                                            SHOW_RESPONCE,
+                                            SHOW_RESPONSE,
                                             collection.getStore()
                                     ));
                             break;
+                        case SHOW_FILTRED:
                         case SHOW:
                             writeData(
                                     client,
                                     new Message(
-                                            SHOW_RESPONCE,
+                                            SHOW_RESPONSE,
                                             collection.getStore()
                                     ));
                             break;
@@ -47,7 +48,7 @@ public class Lab7Server {
                             writeData(
                                     client,
                                     new Message(
-                                            SHOW_RESPONCE,
+                                            SHOW_RESPONSE,
                                             collection.getStore()
                                     ));
                             break;
@@ -56,7 +57,7 @@ public class Lab7Server {
                             writeData(
                                     client,
                                     new Message(
-                                            SHOW_RESPONCE,
+                                            SHOW_RESPONSE,
                                             collection.getStore()
                                     ));
                             break;
@@ -65,7 +66,7 @@ public class Lab7Server {
                             writeData(
                                     client,
                                     new Message(
-                                            SHOW_RESPONCE,
+                                            SHOW_RESPONSE,
                                             collection.getStore()
                                     ));
                             break;

@@ -81,6 +81,7 @@ public class Server {
                     SocketChannel client = serverSocket.accept();
                     Thread clientHandler = new Thread(() -> {
                         print(Thread.currentThread().getName(), "started...");
+
                         try {
                             Selector clientSelector = Selector.open();
                             client.configureBlocking(false);

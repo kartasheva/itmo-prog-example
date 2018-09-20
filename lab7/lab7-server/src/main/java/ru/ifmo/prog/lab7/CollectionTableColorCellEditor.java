@@ -6,24 +6,24 @@ import java.awt.*;
 import java.util.EventObject;
 
 public class CollectionTableColorCellEditor extends AbstractCellEditor implements TableCellEditor {
-//    private ru.ifmo.prog.lab7.Color color = new ru.ifmo.prog.lab7.Color();
+//    private ru.ifmo.prog.lab7.LabColor color = new ru.ifmo.prog.lab7.LabColor();
     private JTextField colorField;
 
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-        ru.ifmo.prog.lab7.Color color = (Color) value;
+        LabColor labColor = (LabColor) value;
 
-        colorField = new JTextField(color != null ? color.toString() : null);
+        colorField = new JTextField(labColor != null ? labColor.toString() : null);
         colorField.setBorder(null);
-        java.awt.Color awtColor = JColorChooser.showDialog(colorField, "Choose a color", color != null ? color.toAWTColor() : null);
-        color = awtColor != null ? new Color(awtColor) : color;
-        colorField.setText(color != null ? color.toString() : "");
+        java.awt.Color awtColor = JColorChooser.showDialog(colorField, "Choose a labColor", labColor != null ? labColor.toAWTColor() : null);
+        labColor = awtColor != null ? new LabColor(awtColor) : labColor;
+        colorField.setText(labColor != null ? labColor.toString() : "");
         return colorField;
     }
 
     @Override
     public Object getCellEditorValue() {
-        return new ru.ifmo.prog.lab7.Color(colorField.getText());
+        return new LabColor(colorField.getText());
     }
 
     @Override

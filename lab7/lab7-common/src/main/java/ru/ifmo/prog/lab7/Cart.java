@@ -4,13 +4,13 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Cart implements Comparable<Cart> {
-    private boolean clatterOfHooves;
+    private Boolean clatterOfHooves;
     private String title;
     private Integer size;
-    private Integer x;
-    private Integer y;
+    private Double x;
+    private Double y;
     private Date createdAt;
-    private ru.ifmo.prog.lab7.Color color;
+    private LabColor labColor;
 
     public void noise(){
         if (clatterOfHooves){
@@ -28,25 +28,25 @@ public class Cart implements Comparable<Cart> {
 
     public Cart() {
         createdAt = new Date();
-        x = 0;
-        y = 0;
+        x = 0.0;
+        y = 0.0;
     }
 
-    public Cart(boolean clatterOfHooves, String title, Integer size, Integer x, Integer y, Date createdAt, ru.ifmo.prog.lab7.Color color) {
+    public Cart(boolean clatterOfHooves, String title, Integer size, Double x, Double y, Date createdAt, LabColor labColor) {
         this.clatterOfHooves = clatterOfHooves;
         this.title = title;
         this.size = size;
         this.x = x;
         this.y = y;
         this.createdAt = createdAt;
-        this.color = color;
+        this.labColor = labColor;
     }
 
-    public boolean isClatterOfHooves() {
+    public Boolean isClatterOfHooves() {
         return clatterOfHooves;
     }
 
-    public void setClatterOfHooves(boolean clatterOfHooves) {
+    public void setClatterOfHooves(Boolean clatterOfHooves) {
         this.clatterOfHooves = clatterOfHooves;
     }
 
@@ -66,19 +66,19 @@ public class Cart implements Comparable<Cart> {
         this.size = size;
     }
 
-    public Integer getX() {
+    public Double getX() {
         return x;
     }
 
-    public void setX(Integer x) {
+    public void setX(Double x) {
         this.x = x;
     }
 
-    public Integer getY() {
+    public Double getY() {
         return y;
     }
 
-    public void setY(Integer y) {
+    public void setY(Double y) {
         this.y = y;
     }
 
@@ -90,9 +90,9 @@ public class Cart implements Comparable<Cart> {
         this.createdAt = createdAt;
     }
 
-    public ru.ifmo.prog.lab7.Color getColor(){ return color; }
+    public LabColor getLabColor(){ return labColor; }
 
-    public void setColor(ru.ifmo.prog.lab7.Color color){ this.color = color; }
+    public void setLabColor(LabColor labColor){ this.labColor = labColor; }
 
     @Override
     public boolean equals(Object o) {
@@ -104,12 +104,12 @@ public class Cart implements Comparable<Cart> {
                 Objects.equals(size, cart.size) &&
                 Objects.equals(x, cart.x) &&
                 Objects.equals(y, cart.y) &&
-                Objects.equals(color, cart.color);
+                Objects.equals(labColor, cart.labColor);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(clatterOfHooves, title, size, x, y, createdAt, color);
+        return Objects.hash(clatterOfHooves, title, size, x, y, createdAt, labColor);
     }
 }

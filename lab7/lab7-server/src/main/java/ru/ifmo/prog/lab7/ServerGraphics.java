@@ -219,8 +219,8 @@ public class ServerGraphics extends JFrame {
         collectionTable = new JTable(new CollectionTableModel(collection));
         collectionTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         collectionTable.setDefaultEditor(Date.class, new CollectionTableDateCellEditor());
-        collectionTable.setDefaultEditor(ru.ifmo.prog.lab7.Color.class, new CollectionTableColorCellEditor());
-        collectionTable.setDefaultRenderer(ru.ifmo.prog.lab7.Color.class, new CollectionTableColorCellRenderer());
+        collectionTable.setDefaultEditor(LabColor.class, new CollectionTableColorCellEditor());
+        collectionTable.setDefaultRenderer(LabColor.class, new CollectionTableColorCellRenderer());
         collectionTable.getModel().addTableModelListener(event -> {
             collectionTable.repaint();
         });
