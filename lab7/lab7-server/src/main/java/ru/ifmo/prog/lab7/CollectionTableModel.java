@@ -76,7 +76,7 @@ public class CollectionTableModel extends AbstractTableModel implements TableMod
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        if (columnIndex < hashtable.size()) {
+        if (rowIndex < hashtable.size()) {
             String key = (String) hashtable.keySet().toArray()[rowIndex];
 
             if (columnIndex == 0) {

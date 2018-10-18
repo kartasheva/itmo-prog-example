@@ -221,9 +221,7 @@ public class ServerGraphics extends JFrame {
         collectionTable.setDefaultEditor(Date.class, new CollectionTableDateCellEditor());
         collectionTable.setDefaultEditor(LabColor.class, new CollectionTableColorCellEditor());
         collectionTable.setDefaultRenderer(LabColor.class, new CollectionTableColorCellRenderer());
-        collectionTable.getModel().addTableModelListener(event -> {
-            collectionTable.repaint();
-        });
+        collectionTable.getModel().addTableModelListener(event -> collectionTable.repaint());
         JScrollPane collectionScrollPane = new JScrollPane(collectionTable);
         tableBox.add(collectionScrollPane);
 

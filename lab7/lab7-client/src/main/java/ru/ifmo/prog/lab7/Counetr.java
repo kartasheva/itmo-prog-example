@@ -1,23 +1,23 @@
 package ru.ifmo.prog.lab7;
 
 public class Counetr {
-    private Integer counter = 0;
+    private Double counter = 0.0;
 
-    public Integer appendToCounter(Integer value) {
+    public Double appendToCounter(Integer value) {
         counter = counter + value;
         return counter;
     }
 
-    public Integer clear() {
-        counter = 0;
+    public Double clear() {
+        counter = 0.0;
         return counter;
     }
 
-    public Integer getCounter() {
+    public Double getCounter() {
         return counter;
     }
 
-    public void setCounter(Integer counter) {
+    public void setCounter(Double counter) {
         this.counter = counter;
     }
 }

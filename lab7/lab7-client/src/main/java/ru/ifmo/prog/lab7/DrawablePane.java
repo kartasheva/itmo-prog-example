@@ -9,8 +9,10 @@ import java.util.stream.Collectors;
 public class DrawablePane extends JPanel {
     private static final Double TICK = 10.0;
     private static final Double PX = 10.0;
-    private static final Double STEP_DOWN = PX / (5000.0 / TICK);
-    private static final Double STEP_UP = PX / (3000.0 / TICK);
+    private static final Double TIME_DOWN = 5000.0;
+    private static final Double TIME_UP = 3000.0;
+    private static final Double STEP_DOWN = PX / (TIME_DOWN / TICK);
+    private static final Double STEP_UP = PX / (TIME_UP / TICK);
 
     private List<Cart> carts;
     private List<Cart> filteredCarts;
@@ -27,10 +29,10 @@ public class DrawablePane extends JPanel {
         counetr = new Counetr();
         timer = new Timer(TICK.intValue(), e -> {
             counetr.appendToCounter(timer.getDelay());
-            if (counetr.getCounter() <= 5000) {
+            if (counetr.getCounter() <= TIME_DOWN) {
                 filteredCarts
                         .forEach(cart -> cart.setY(cart.getY() + STEP_DOWN));
-            } else if (counetr.getCounter() > 5000 && counetr.getCounter() <= 8000) {
+            } else if (counetr.getCounter() > TIME_DOWN && counetr.getCounter() <= (TIME_DOWN + TIME_UP)) {
                 filteredCarts
                         .forEach(cart -> cart.setY(cart.getY() - STEP_UP));
             } else {

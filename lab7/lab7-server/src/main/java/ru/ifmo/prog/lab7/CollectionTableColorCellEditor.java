@@ -18,6 +18,7 @@ public class CollectionTableColorCellEditor extends AbstractCellEditor implement
         java.awt.Color awtColor = JColorChooser.showDialog(colorField, "Choose a labColor", labColor != null ? labColor.toAWTColor() : null);
         labColor = awtColor != null ? new LabColor(awtColor) : labColor;
         colorField.setText(labColor != null ? labColor.toString() : "");
+        colorField.setBackground(labColor.toAWTColor());
         return colorField;
     }
 
