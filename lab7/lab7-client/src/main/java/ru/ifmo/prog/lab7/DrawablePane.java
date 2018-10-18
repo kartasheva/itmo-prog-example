@@ -2,8 +2,10 @@ package ru.ifmo.prog.lab7;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class DrawablePane extends JPanel {
@@ -23,6 +25,7 @@ public class DrawablePane extends JPanel {
 
     public DrawablePane(List<Cart> carts) {
         super();
+        ToolTipManager.sharedInstance().registerComponent(this);
         this.carts = carts;
         this.filteredCarts = carts;
 
@@ -65,11 +68,11 @@ public class DrawablePane extends JPanel {
 
         filteredCarts
                 .forEach(cart -> {
-            if (cart.getLabColor() != null) {
-                graphics2D.setColor(cart.getLabColor().toAWTColor());
-            }
-            graphics2D.fillRect(cart.getX().intValue(), cart.getY().intValue(), cart.getSize(), cart.getSize());
-        });
+                    if (cart.getLabColor() != null) {
+                        graphics2D.setColor(cart.getLabColor().toAWTColor());
+                    }
+                    graphics2D.fillRect(cart.getX().intValue(), cart.getY().intValue(), cart.getSize(), cart.getSize());
+                });
     }
 
     public void addTimerEndHandler(TimerEnd timerEnd) {
@@ -106,12 +109,34 @@ public class DrawablePane extends JPanel {
             return filters.getSize().equals(cart.getSize());
         }
         if (filters.getX() != null) {
-            return filters.getX() <= cart.getX();
+            return filters.getX() >= cart.getX();
         }
         if (filters.getY() != null) {
-            return filters.getY() <= cart.getY();
+            return filters.getY() >= cart.getY();
         }
-
+        if (filters.getCreatedAt() != null) {
+            return filters.getCreatedAt().equals(cart.getCreatedAt());
+        }
+        if (filters.getLabColor() != null) {
+            return filters.getLabColor().equals(cart.getLabColor());
+        }
         return true;
+    }
+
+    @Override
+    public String getToolTipText(MouseEvent event) {
+        Optional<Cart> cart = carts
+                .stream()
+                .filter(_cart -> _cart.getX() <= event.getPoint().x
+                        && event.getPoint().x <= _cart.getX() + _cart.getSize()
+                        && _cart.getY() <= event.getPoint().y
+                        && event.getPoint().y <= _cart.getY() + _cart.getSize())
+                .findFirst();
+        return cart.map(Cart::getTitle).orElse(null);
+    }
+
+    @Override
+    public Point getToolTipLocation(MouseEvent event) {
+        return event.getPoint();
     }
 }

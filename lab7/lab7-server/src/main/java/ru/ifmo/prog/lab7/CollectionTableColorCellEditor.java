@@ -6,7 +6,6 @@ import java.awt.*;
 import java.util.EventObject;
 
 public class CollectionTableColorCellEditor extends AbstractCellEditor implements TableCellEditor {
-//    private ru.ifmo.prog.lab7.LabColor color = new ru.ifmo.prog.lab7.LabColor();
     private JTextField colorField;
 
     @Override
