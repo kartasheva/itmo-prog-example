@@ -1,0 +1,41 @@
+{
+  "key3" : {
+    "clatterOfHooves" : true,
+    "title" : "title3",
+    "size" : 50,
+    "x" : 1.0,
+    "y" : 3.0,
+    "createdAt" : 1527729207204,
+    "labColor" : {
+      "red" : 255,
+      "green" : 0,
+      "blue" : 0
+    }
+  },
+  "key2" : {
+    "clatterOfHooves" : true,
+    "title" : "title2",
+    "size" : 100,
+    "x" : 60.0,
+    "y" : 3.0,
+    "createdAt" : 1527729207204,
+    "labColor" : {
+      "red" : 0,
+      "green" : 255,
+      "blue" : 0
+    }
+  },
+  "key1" : {
+    "clatterOfHooves" : true,
+    "title" : "title1",
+    "size" : 80,
+    "x" : 170.0,
+    "y" : 3.0,
+    "createdAt" : 1527729207204,
+    "labColor" : {
+      "red" : 0,
+      "green" : 0,
+      "blue" : 255
+    }
+  }
+}
