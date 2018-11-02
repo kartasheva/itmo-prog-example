@@ -8,25 +8,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
-import java.util.Locale;
 
 import static javax.swing.Box.createHorizontalBox;
 
 public class ClientGraphics extends JFrame {
-    Hashtable<String, Cart> store = null;
 
-    CartFilters currentFilters = new CartFilters();
-
-    DrawablePane drawablePane;
-
+    private LabLocale labLocale = LabLocale.getInstance();
+    private Hashtable<String, Cart> store = null;
+    private CartFilters currentFilters = new CartFilters();
+    private DrawablePane drawablePane;
 
     public ClientGraphics() {
-        super("Client");
+        super(LabLocale.getInstance().getString("Client"));
         updateStore(currentFilters);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container container = getContentPane();
-
-        setLocale(new Locale("ru"));
 
         drawablePane = new DrawablePane(new ArrayList<>(store.values()));
         drawablePane.setFilters(currentFilters);
@@ -34,6 +30,11 @@ public class ClientGraphics extends JFrame {
 
         Box filtersBox = createHorizontalBox(),
                 actionsBox = createHorizontalBox();
+
+
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.add(labLocale.getLocalesMenu());
+        setJMenuBar(menuBar);
 
         JTextField titleField, createdAtField, colorField;
         ButtonGroup clatterOfHoovesGroup = new ButtonGroup();
@@ -46,11 +47,11 @@ public class ClientGraphics extends JFrame {
         JButton setFiltersButton;
 
         titleField = (JTextField) filtersBox.add(new JTextField());
-        clatterOfHoovesNull = (JRadioButton) filtersBox.add(new JRadioButton("NULL", true));
+        clatterOfHoovesNull = (JRadioButton) filtersBox.add(new JRadioButton(labLocale.getString("Null"), true));
         clatterOfHoovesGroup.add(clatterOfHoovesNull);
-        clatterOfHoovesTrue = (JRadioButton) filtersBox.add(new JRadioButton("TRUE", false));
+        clatterOfHoovesTrue = (JRadioButton) filtersBox.add(new JRadioButton(labLocale.getString("True"), false));
         clatterOfHoovesGroup.add(clatterOfHoovesTrue);
-        clatterOfHoovesFalse = (JRadioButton) filtersBox.add(new JRadioButton("FALSE", false));
+        clatterOfHoovesFalse = (JRadioButton) filtersBox.add(new JRadioButton(labLocale.getString("False"), false));
         clatterOfHoovesGroup.add(clatterOfHoovesFalse);
 
         sizeSpinner = (JSpinner) filtersBox.add(new JSpinner(new SpinnerNumberModel(20, 0, 999, 1)));
@@ -65,7 +66,7 @@ public class ClientGraphics extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 LabColor labColor;
 
-                java.awt.Color awtColor = JColorChooser.showDialog(colorField, "Choose a labColor", null);
+                java.awt.Color awtColor = JColorChooser.showDialog(colorField, labLocale.getString("Choose_a_labColor"), null);
                 labColor = awtColor != null ? new LabColor(awtColor) : null;
                 colorField.setText(labColor != null ? labColor.toString() : "");
                 colorField.setBackground(labColor != null ? labColor.toAWTColor() : Color.WHITE);
@@ -92,7 +93,7 @@ public class ClientGraphics extends JFrame {
             }
         });
 
-        setFiltersButton = (JButton) filtersBox.add(new JButton("APPLY"));
+        setFiltersButton = (JButton) filtersBox.add(new JButton(labLocale.getString("Apply")));
         setFiltersButton.addActionListener(l -> {
             currentFilters.setTitle(titleField.getText());
             if (clatterOfHoovesTrue.isSelected()) {
@@ -118,9 +119,9 @@ public class ClientGraphics extends JFrame {
 
         JButton loadButton, startButton, stopButton;
 
-        loadButton = (JButton) actionsBox.add(new JButton("LOAD ITEMS BY FILTERS"));
-        startButton = (JButton) actionsBox.add(new JButton("START"));
-        stopButton = (JButton) actionsBox.add(new JButton("STOP"));
+        loadButton = (JButton) actionsBox.add(new JButton(labLocale.getString("Load")));
+        startButton = (JButton) actionsBox.add(new JButton(labLocale.getString("Start")));
+        stopButton = (JButton) actionsBox.add(new JButton(labLocale.getString("Stop")));
 
         stopButton.setEnabled(false);
 
@@ -151,6 +152,17 @@ public class ClientGraphics extends JFrame {
         container.add(drawablePane);
         container.add(Box.createVerticalStrut(12));
         container.add(actionsBox);
+
+        labLocale.addLocaleChangeHandler(bundle -> {
+            setTitle(bundle.getString("Client"));
+            clatterOfHoovesNull.setText(bundle.getString("Null"));
+            clatterOfHoovesTrue.setText(bundle.getString("True"));
+            clatterOfHoovesFalse.setText(bundle.getString("False"));
+            setFiltersButton.setText(bundle.getString("Apply"));
+            loadButton.setText(bundle.getString("Load"));
+            startButton.setText(bundle.getString("Start"));
+            stopButton.setText(bundle.getString("Stop"));
+        });
 
         pack();
         setVisible(true);

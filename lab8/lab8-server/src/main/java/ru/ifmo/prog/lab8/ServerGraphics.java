@@ -13,6 +13,8 @@ public class ServerGraphics extends JFrame {
 
     private JTable collectionTable;
 
+    private LabLocale labLocale = LabLocale.getInstance();
+
     public static void normalizeLocation(Window window) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension frameSize = window.getSize();
@@ -26,7 +28,7 @@ public class ServerGraphics extends JFrame {
     }
 
     public ServerGraphics(Server server, Collection<Cart> collection) {
-        super("Server");
+        super(LabLocale.getInstance().getString("Server"));
 
         this.server = server;
         this.collection = collection;
@@ -40,6 +42,8 @@ public class ServerGraphics extends JFrame {
                 ((CollectionTableModel) collectionTable.getModel()).fireTableDataChanged();
             }
         });
+
+        labLocale.addLocaleChangeHandler(bundle -> setTitle(bundle.getString("Server")));
 
         setVisible(true);
     }
@@ -62,25 +66,36 @@ public class ServerGraphics extends JFrame {
 
         JButton submitButton, cancelButton;
 
-        loginLabel = (JLabel) loginBox.add(new JLabel("login:"));
+        loginLabel = (JLabel) loginBox.add(new JLabel(labLocale.getString("Login")));
         loginBox.add(createHorizontalStrut(6));
         loginField = (JTextField) loginBox.add(new JTextField("user", 15));
 
-        passwordLabel = (JLabel) passwordBox.add(new JLabel("password:"));
+        passwordLabel = (JLabel) passwordBox.add(new JLabel(labLocale.getString("Password")));
         passwordBox.add(createHorizontalStrut(6));
         passwordField = (JPasswordField) passwordBox.add(new JPasswordField("user", 10));
 
         loginLabel.setPreferredSize(passwordLabel.getPreferredSize());
 
-        submitButton = (JButton) actionsBox.add(new JButton("OK"));
-        cancelButton = (JButton) actionsBox.add(new JButton("CANCEL"));
+        submitButton = (JButton) actionsBox.add(new JButton(labLocale.getString("Ok")));
+        cancelButton = (JButton) actionsBox.add(new JButton(labLocale.getString("Cancel")));
+
+        labLocale.addLocaleChangeHandler(bundle -> {
+            if (loginLabel != null)
+                loginLabel.setText(bundle.getString("Login"));
+            if (passwordLabel != null)
+                passwordLabel.setText(bundle.getString("Password"));
+            if (submitButton != null)
+                submitButton.setText(bundle.getString("Ok"));
+            if (cancelButton != null)
+                cancelButton.setText(bundle.getString("Cancel"));
+        });
 
         submitButton.addActionListener(event -> {
             if (login(loginField.getText(), passwordField.getPassword())) {
                 preparePage();
             } else {
-                JOptionPane.showMessageDialog(this,"Incorrect login or password",
-                        "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this,labLocale.getString("Incorrect_login_or_password"),
+                        labLocale.getString("Error"), JOptionPane.ERROR_MESSAGE);
             }
         });
         cancelButton.addActionListener(event -> System.exit(0));
@@ -101,9 +116,13 @@ public class ServerGraphics extends JFrame {
         Container container = getContentPane();
         container.removeAll();
         JMenuBar menuBar = new JMenuBar();
-        JMenu actions = menuBar.add(new JMenu("ACTIONS"));
-        JMenuItem collectionLoadButton = actions.add(new JMenuItem("LOAD"));
-        JMenuItem collectionSaveButton = actions.add(new JMenuItem("SAVE"));
+        JMenu actions = menuBar.add(new JMenu(labLocale.getString("Actions")));
+        JMenuItem collectionLoadButton = actions.add(new JMenuItem(labLocale.getString("Load")));
+        JMenuItem collectionSaveButton = actions.add(new JMenuItem(labLocale.getString("Save")));
+
+        menuBar.add(labLocale.getLocalesMenu());
+
+        setJMenuBar(menuBar);
 
         collectionLoadButton.addActionListener(event -> {
             try {
@@ -132,11 +151,30 @@ public class ServerGraphics extends JFrame {
 
         JButton addButton, removeButton, removeAllButton, clearButton, exitButton;
 
-        addButton = (JButton) actionsBox.add(new JButton("ADD ITEM"));
-        removeButton = (JButton) actionsBox.add(new JButton("REMOVE SELECTED ITEM"));
-        removeAllButton = (JButton) actionsBox.add(new JButton("REMOVE ALL ITEM LIKE EMPTY"));
-        clearButton = (JButton) actionsBox.add(new JButton("CLEAR"));
-        exitButton = (JButton) actionsBox.add(new JButton("EXIT"));
+        addButton = (JButton) actionsBox.add(new JButton(labLocale.getString("Add_item")));
+        removeButton = (JButton) actionsBox.add(new JButton(labLocale.getString("Remove_selected_item")));
+        removeAllButton = (JButton) actionsBox.add(new JButton(labLocale.getString("Remove_all_items_like_empty")));
+        clearButton = (JButton) actionsBox.add(new JButton(labLocale.getString("Clear")));
+        exitButton = (JButton) actionsBox.add(new JButton(labLocale.getString("Exit")));
+
+        labLocale.addLocaleChangeHandler(bundle -> {
+            if (actions != null)
+                actions.setText(bundle.getString("Actions"));
+            if (collectionLoadButton != null)
+                collectionLoadButton.setText(bundle.getString("Load"));
+            if (collectionSaveButton != null)
+                collectionSaveButton.setText(bundle.getString("Save"));
+            if (addButton != null)
+                addButton.setText(bundle.getString("Add_item"));
+            if (removeButton != null)
+                removeButton.setText(bundle.getString("Remove_selected_item"));
+            if (removeAllButton != null)
+                removeAllButton.setText(bundle.getString("Remove_all_items_like_empty"));
+            if (clearButton != null)
+                clearButton.setText(bundle.getString("Clear"));
+            if (exitButton != null)
+                exitButton.setText(bundle.getString("Exit"));
+        });
 
         addButton.addActionListener(event -> {
             try {
@@ -149,7 +187,7 @@ public class ServerGraphics extends JFrame {
         });
 
         removeButton.addActionListener(removeButtonEvent -> {
-            JDialog removeItemKeyDialog = new JDialog(this,"REMOVE ITEM BY KEY", Dialog.ModalityType.DOCUMENT_MODAL);
+            JDialog removeItemKeyDialog = new JDialog(this,labLocale.getString("Remove_item_by_key"), Dialog.ModalityType.DOCUMENT_MODAL);
             removeItemKeyDialog.setResizable(false);
             removeItemKeyDialog.setLayout(new BoxLayout(removeItemKeyDialog.getContentPane(), BoxLayout.Y_AXIS));
 
@@ -162,7 +200,7 @@ public class ServerGraphics extends JFrame {
 
             JButton submitButton, cancelButton;
 
-            keyLabel = (JLabel) keyBox.add(new JLabel("KEY:"));
+            keyLabel = (JLabel) keyBox.add(new JLabel(labLocale.getString("Key")));
             keyBox.add(createHorizontalStrut(6));
             keyField = (JTextField) keyBox.add(
                     new JTextField(collectionTable.getSelectedRow() >= 0
@@ -170,8 +208,8 @@ public class ServerGraphics extends JFrame {
                             : "",
                             15));
 
-            submitButton = (JButton) dialogActionsBox.add(new JButton("REMOVE ITEM"));
-            cancelButton = (JButton) dialogActionsBox.add(new JButton("CANCEL"));
+            submitButton = (JButton) dialogActionsBox.add(new JButton(labLocale.getString("Remove_item")));
+            cancelButton = (JButton) dialogActionsBox.add(new JButton(labLocale.getString("Cancel")));
 
             submitButton.addActionListener(event -> {
                 try {

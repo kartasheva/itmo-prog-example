@@ -1,6 +1,5 @@
 package ru.ifmo.prog.lab8;
 
-import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -12,7 +11,7 @@ public class Cart implements Comparable<Cart> {
     private Double y;
     private Date createdAt;
     private LabColor labColor;
-    private OffsetDateTime odt;
+
 
     public void noise(){
         if (clatterOfHooves){

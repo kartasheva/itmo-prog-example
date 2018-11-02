@@ -83,13 +83,19 @@ public class DrawablePane extends JPanel {
 
     public void setCarts(List<Cart> carts) {
         this.carts = carts;
-        this.filteredCarts = this.carts.stream().filter(this::checkCartByFilter).collect(Collectors.toList());
+        this.filteredCarts = this.carts
+                .stream()
+                .filter(this::checkCartByFilter)
+                .collect(Collectors.toList());
         this.repaint();
     }
 
     public void setFilters(CartFilters filters) {
         this.filters = filters;
-        this.filteredCarts = this.carts.stream().filter(this::checkCartByFilter).collect(Collectors.toList());
+        this.filteredCarts = this.carts
+                .stream()
+                .filter(this::checkCartByFilter)
+                .collect(Collectors.toList());
     }
 
     public void start() {
