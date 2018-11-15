@@ -10,7 +10,8 @@ import static ru.ifmo.prog.lab8.OutputHelper.print;
 import static ru.ifmo.prog.lab8.Server.writeData;
 
 public class Lab8Server {
-    private static ObjectMapper mapper = new ObjectMapper();
+    private static ObjectMapper mapper = new ObjectMapper()
+            .findAndRegisterModules();
 
     public static void main(String[] args) {
 

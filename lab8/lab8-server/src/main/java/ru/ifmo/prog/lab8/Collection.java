@@ -13,7 +13,8 @@ import java.util.*;
 public class Collection<T extends Cart> {
     private String pathToFile; //имя файла
     private Class<T> itemType;
-    private ObjectMapper mapper = new ObjectMapper();
+    private ObjectMapper mapper = new ObjectMapper()
+            .findAndRegisterModules();
     private Hashtable<String, T> store = new Hashtable<>();
 
     public Collection(String pathToFile, Class<T> itemType) throws IOException {

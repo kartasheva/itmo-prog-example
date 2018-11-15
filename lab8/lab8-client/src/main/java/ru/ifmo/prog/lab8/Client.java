@@ -20,7 +20,8 @@ import static ru.ifmo.prog.lab8.Constants.PORT;
 import static ru.ifmo.prog.lab8.OutputHelper.print;
 
 public class Client {
-    private static ObjectMapper mapper = new ObjectMapper();
+    private static ObjectMapper mapper = new ObjectMapper()
+            .findAndRegisterModules();
 
     public static Message getMessage(Message request) throws IOException {
         return getMessage(request, null);

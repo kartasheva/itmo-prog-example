@@ -20,7 +20,8 @@ import static ru.ifmo.prog.lab8.Constants.PORT;
 import static ru.ifmo.prog.lab8.OutputHelper.print;
 
 public class Server {
-    private static ObjectMapper mapper = new ObjectMapper();
+    private static ObjectMapper mapper = new ObjectMapper()
+            .findAndRegisterModules();
 
     public static void writeData (SocketChannel socket, Message message) throws IOException {
         String payload = mapper.writeValueAsString(message);
