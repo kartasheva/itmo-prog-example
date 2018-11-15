@@ -35,7 +35,8 @@ public class SyntaxBundle_sl extends ListResourceBundle {
             {"Exit","Izhod"},
             {"Remove_item_by_key","Brisanje elementa po ključu"},
             {"Key","Ključ"},
-            {"Remove_item","Izbriši element"}
+            {"Remove_item","Izbriši element"},
+            {"Date_format_error", "Napaka v formatu datuma"}
     };
 
     protected String[][] getContents() {

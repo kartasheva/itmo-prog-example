@@ -34,7 +34,8 @@ public class SyntaxBundle extends ListResourceBundle {
             {"Exit","Выход"},
             {"Remove_item_by_key","Удалить элемент по ключу"},
             {"Key","Ключ"},
-            {"Remove_item","Удалить элемент"}
+            {"Remove_item", "Удалить элемент"},
+            {"Date_format_error", "Ошибка формата даты"}
     };
 
     public String[][] getContents(){

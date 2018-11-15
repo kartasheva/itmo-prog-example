@@ -35,7 +35,8 @@ public class SyntaxBundle_en_AU extends ListResourceBundle {
             {"Exit","Exit"},
             {"Remove_item_by_key","Remove item by key"},
             {"Key","Key"},
-            {"Remove_item","Remove item"}
+            {"Remove_item","Remove item"},
+            {"Date_format_error", "Date format error"}
     };
 
     protected String[][] getContents() {

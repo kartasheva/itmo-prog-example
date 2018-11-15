@@ -1,6 +1,6 @@
 package ru.ifmo.prog.lab8;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 
 public class Cart implements Comparable<Cart> {
@@ -9,7 +9,7 @@ public class Cart implements Comparable<Cart> {
     private Integer size;
     private Double x;
     private Double y;
-    private Date createdAt;
+    private OffsetDateTime createdAt;
     private LabColor labColor;
 
 
@@ -28,12 +28,12 @@ public class Cart implements Comparable<Cart> {
     }
 
     public Cart() {
-        createdAt = new Date();
+        createdAt = OffsetDateTime.now();
         x = 0.0;
         y = 0.0;
     }
 
-    public Cart(boolean clatterOfHooves, String title, Integer size, Double x, Double y, Date createdAt, LabColor labColor) {
+    public Cart(boolean clatterOfHooves, String title, Integer size, Double x, Double y, OffsetDateTime createdAt, LabColor labColor) {
         this.clatterOfHooves = clatterOfHooves;
         this.title = title;
         this.size = size;
@@ -83,11 +83,11 @@ public class Cart implements Comparable<Cart> {
         this.y = y;
     }
 
-    public Date getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 

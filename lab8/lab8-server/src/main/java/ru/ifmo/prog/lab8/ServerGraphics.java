@@ -3,7 +3,8 @@ package ru.ifmo.prog.lab8;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.Date;
+import java.text.NumberFormat;
+import java.time.OffsetDateTime;
 
 import static javax.swing.Box.*;
 
@@ -174,6 +175,9 @@ public class ServerGraphics extends JFrame {
                 clearButton.setText(bundle.getString("Clear"));
             if (exitButton != null)
                 exitButton.setText(bundle.getString("Exit"));
+            if (collectionTable != null) {
+                collectionTable.repaint();
+            }
         });
 
         addButton.addActionListener(event -> {
@@ -256,9 +260,32 @@ public class ServerGraphics extends JFrame {
 
         collectionTable = new JTable(new CollectionTableModel(collection));
         collectionTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        collectionTable.setDefaultEditor(Date.class, new CollectionTableDateCellEditor());
+        collectionTable.setDefaultEditor(OffsetDateTime.class, new CollectionTableDateCellEditor());
         collectionTable.setDefaultEditor(LabColor.class, new CollectionTableColorCellEditor());
-        collectionTable.setDefaultRenderer(LabColor.class, new CollectionTableColorCellRenderer());
+        collectionTable.setDefaultRenderer(LabColor.class, (table, value, isSelected, hasFocus, row, column) -> {
+            LabColor labColor = (LabColor) value;
+            if (labColor != null) {
+                JLabel colorLabel = new JLabel(labColor.toString());
+                colorLabel.setOpaque(true);
+                colorLabel.setBackground(labColor.toAWTColor());
+
+                return colorLabel;
+            }
+
+            return null;
+        });
+        collectionTable.setDefaultRenderer(Double.class, (table, value, isSelected, hasFocus, row, column) -> {
+            Double number = (Double) value;
+            if (number != null) {
+                JLabel numberLabel = new JLabel(NumberFormat
+                        .getNumberInstance(labLocale.getLocale()).format(number));
+//                numberLabel.setOpaque(true);
+
+                return numberLabel;
+            }
+
+            return null;
+        });
         collectionTable.getModel().addTableModelListener(event -> collectionTable.repaint());
         JScrollPane collectionScrollPane = new JScrollPane(collectionTable);
         tableBox.add(collectionScrollPane);

@@ -61,4 +61,8 @@ public class LabLocale {
         if (labLocaleUpdateHandlers != null)
             labLocaleUpdateHandlers.forEach(labLocaleUpdateHandler -> labLocaleUpdateHandler.handle(resourceBundle));
     }
+
+    public Locale getLocale() {
+        return currentLocale;
+    }
 }

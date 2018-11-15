@@ -35,7 +35,8 @@ public class SyntaxBundle_hu extends ListResourceBundle {
             {"Exit","kijárat"},
             {"Remove_item_by_key","Elem törlése kulcs szerint"},
             {"Key","kulcs"},
-            {"Remove_item","Elem törlése"}
+            {"Remove_item","Elem törlése"},
+            {"Date_format_error", "Dátumformátum hiba"}
     };
 
     protected String[][] getContents() {
