@@ -2,7 +2,7 @@ package ru.ifmo.prog.lab8;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
+import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.time.OffsetDateTime;
 
@@ -128,7 +128,7 @@ public class ServerGraphics extends JFrame {
         collectionLoadButton.addActionListener(event -> {
             try {
                 collection.load();
-            } catch (IOException e) {
+            } catch (SQLException e) {
                 OutputHelper.print(Thread.currentThread().getName(), e.getMessage());
             } finally {
                 ((CollectionTableModel) collectionTable.getModel()).fireTableDataChanged();
@@ -137,8 +137,6 @@ public class ServerGraphics extends JFrame {
         collectionSaveButton.addActionListener(event -> {
             try {
                 collection.save();
-            } catch (IOException e) {
-                OutputHelper.print(Thread.currentThread().getName(), e.getMessage());
             } finally {
                 ((CollectionTableModel) collectionTable.getModel()).fireTableDataChanged();
             }

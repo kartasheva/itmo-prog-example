@@ -8,5 +8,15 @@ public enum MessageType {
     SHOW,
     SHOW_FILTRED,
     SHOW_RESPONSE,
-    CLOSE
+    CLOSE,
+
+    CREATE,
+    READ,
+    UPDATE,
+    DELETE,
+
+    CREATE_RESPONSE,
+    READ_RESPONSE,
+    UPDATE_RESPONSE,
+    DELETE_RESPONSE
 }

@@ -6,7 +6,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Hashtable;
 
 import static javax.swing.Box.createHorizontalBox;
@@ -107,7 +106,7 @@ public class ClientGraphics extends JFrame {
             currentFilters.setX((Double) ((SpinnerNumberModel) xSpinner.getModel()).getNumber());
             currentFilters.setY((Double) ((SpinnerNumberModel) ySpinner.getModel()).getNumber());
             if (createdAtField.getText().length() > 0)
-                currentFilters.setCreatedAt(new Date(Integer.valueOf(createdAtField.getText())));
+                currentFilters.setCreatedAt(null);
             else
                 currentFilters.setCreatedAt(null);
             if (colorField.getText().length() > 0)

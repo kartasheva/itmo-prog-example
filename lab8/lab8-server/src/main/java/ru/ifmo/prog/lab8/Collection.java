@@ -2,48 +2,38 @@ package ru.ifmo.prog.lab8;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.MapType;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
 
 public class Collection<T extends Cart> {
-    private String pathToFile; //имя файла
+    private DatabaseClient<T> client = DatabaseClient.getInstance();
     private Class<T> itemType;
     private ObjectMapper mapper = new ObjectMapper()
             .findAndRegisterModules();
     private Hashtable<String, T> store = new Hashtable<>();
 
-    public Collection(String pathToFile, Class<T> itemType) throws IOException {
-        this.pathToFile = pathToFile;
+    public Collection(Class<T> itemType) throws SQLException {
         this.itemType = itemType;
         load();
     }
 
     /**
      * Перечитать коллекцию из файла
-     * @throws IOException
      */
-    public void load() throws IOException {
-        File file = new File(pathToFile);
-        StringBuilder content = new StringBuilder();
-
-        try (Scanner scanner = new Scanner(file)) {
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                content.append(line);
-            }
+    public void load() throws SQLException {
+        if (!client.isTableExist(itemType.getName())) {
+            client.createTable(itemType.getName(), itemType);
         }
 
-        MapType mapType = mapper.getTypeFactory().constructMapType(Hashtable.class, String.class, itemType);
-        Hashtable<String, T> unsortedStore= mapper.readValue(content.toString(), mapType);
+        Hashtable<String, T> unsortedStore = client.readAllItems(itemType.getName(), itemType);
         List<Map.Entry> list = new ArrayList<>(unsortedStore.entrySet());
         list.sort((e1, e2) -> ((Cart) e2.getValue()).getCreatedAt().compareTo(((Cart) e1.getValue()).getCreatedAt()));
         store.clear();
-        for(int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             store.put((String) list.get(i).getKey(), (T) list.get(i).getValue());
         }
 
@@ -52,14 +42,20 @@ public class Collection<T extends Cart> {
 
     /**
      * Сохранить коллекцию в файл
-     * @throws IOException
      */
-    public void save() throws IOException {
-       String out = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(store);
-       try (BufferedWriter writer = new BufferedWriter(new FileWriter(pathToFile))) {
-           writer.write(out);
-           writer.flush();
-       }
+    public void save() {
+        try {
+            client.deleteAllItems(itemType.getName());
+        } catch (SQLException e) {
+            OutputHelper.print(Thread.currentThread().getName(), e.getMessage());
+        }
+        store.forEach((key, value) -> {
+            try {
+                client.createItem(itemType.getName(), key, value);
+            } catch (SQLException e) {
+                OutputHelper.print(Thread.currentThread().getName(), e.getMessage());
+            }
+        });
     }
 
     /**

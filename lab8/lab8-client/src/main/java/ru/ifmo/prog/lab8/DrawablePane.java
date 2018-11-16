@@ -5,7 +5,6 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -16,7 +15,6 @@ public class DrawablePane extends JPanel {
     private static final Double TIME_UP = 3000.0;
     private static final Double STEP_DOWN = PX / (TIME_DOWN / TICK);
     private static final Double STEP_UP = PX / (TIME_UP / TICK);
-    private Locale locale;
 
     private List<Cart> carts;
     private List<Cart> filteredCarts;
