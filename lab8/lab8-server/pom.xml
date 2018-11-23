@@ -36,7 +36,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>ru.ifmo.prog.lab8.Server</mainClass>
+                            <mainClass>ru.ifmo.prog.lab8.Lab8Server</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

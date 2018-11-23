@@ -32,7 +32,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>ru.ifmo.prog.lab8.Client</mainClass>
+                            <mainClass>ru.ifmo.prog.lab8.Lab8Client</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

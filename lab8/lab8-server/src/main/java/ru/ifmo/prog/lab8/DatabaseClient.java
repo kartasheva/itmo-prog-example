@@ -15,7 +15,8 @@ import java.util.stream.Collectors;
 import static java.lang.String.format;
 
 public class DatabaseClient<T> {
-    private final static String ENDPOINT = "jdbc:postgresql://localhost:5432/studs";
+    private final static String HOST = "localhost";
+    private final static String ENDPOINT = "jdbc:postgresql://" + HOST + ":5432/studs";
     private final static String DRIVER = "org.postgresql.Driver";
     private final static String USER = "s243163";
     private final static String PASSWORD = "nvj572";
